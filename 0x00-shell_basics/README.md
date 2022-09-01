@@ -1,1 +1,1 @@
-reate a script that creates a directory named my_first_dir
+create a script that created directory
