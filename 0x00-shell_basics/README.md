@@ -1,1 +1,1 @@
-Display contents
+reate a script that creates a directory named my_first_dir
