@@ -1,1 +1,1 @@
-create a script that created directory
+move that betty file
