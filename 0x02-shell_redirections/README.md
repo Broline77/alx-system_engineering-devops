@@ -1,1 +1,1 @@
-shell redirections
+scrip confused smiley
