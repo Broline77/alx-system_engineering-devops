@@ -1,11 +1,27 @@
 #!/usr/bin/env bash
-# Configure extra Nginx web server to have a custom HTTP header:
-# `X-Served-By: <hostname> of the server Nginx is running on`
-
+# configure additional NGINX servers
+	
+#install Nginx
 sudo apt-get -y update
 sudo apt-get -y install nginx
 
-repl_str="\tlocation \/ {\n\t\tadd_header X-Served-By $HOSTNAME;"
-sudo sed -i "s/\tlocation \/ {/$repl_str/" /etc/nginx/sites-available/default
+#set up firewall
+sudo ufw allow 'Nginx HTTP'
 
-sudo service nginx restart
+# make dir for serving webpages and grant permissions
+sudo mkdir -p /var/www/html
+sudo chmod -R 755 /var/www
+	
+#create index page and 404 error page
+echo "Hello World!" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+	
+
+sed -i "/listen 80 default_server;/a rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;" /etc/nginx/sites-available/default
+
+sed -i "/listen 80 default_server;/a error_page 404 /404.html;" /etc/nginx/sites-available/default
+
+sed -i '14a \\tadd_header X-Served-By '"${HOSTNAME}"';' /etc/nginx/nginx.conf
+
+#restart after updating settings
+service nginx restart
