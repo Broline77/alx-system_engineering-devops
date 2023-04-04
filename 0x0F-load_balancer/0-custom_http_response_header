@@ -1,38 +1,27 @@
 #!/usr/bin/env bash
-# This script configures an ubuntu machine by adding a custom HTTP header to the server.
-# Update system repo
-apt update
+# configure additional NGINX servers
+	
+#install Nginx
+apt-get -y update
+apt-get -y install nginx
 
-# Install Nginx
-apt install nginx -y
+#set up firewall
+sudo ufw allow 'Nginx HTTP'
 
-# Open port 80 for listening
-ufw allow 'Nginx HTTP'
-
-# Index html constains string
-echo 'Hello World!' > /var/www/html/index.html
-
-# Error html contains error message
+# make dir for serving webpages and grant permissions
+sudo mkdir -p /var/www/html
+sudo chmod -R 755 /var/www
+	
+#create index page and 404 error page
+echo "Hello World!" > /var/www/html/index.html
 echo "Ceci n'est pas une page" > /var/www/html/404.html
+	
+#configure servers
+sed -i "/listen 80 default_server;/a rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;" /etc/nginx/sites-available/default
 
-# Configure server
-SERVER_CONFIG="\
-		server	{
-				listen 80 default_server;
-				listen [::]:80 default_server;
-				error_page 404 /404.html;
-				root /var/www/html;
-				index index.html index.htm index.nginx-debian.html;
-				server_name _;
-				location / {
-							add_header X-Served-By \$hostname;
-							try_files \$uri \$uri/ =404;
-				}
-				rewrite ^/redirect_me/ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
-		}"
+sed -i "/listen 80 default_server;/a error_page 404 /404.html;" /etc/nginx/sites-available/default
 
-# Place configuration in nginx file
-bash -c "echo -e '$SERVER_CONFIG' > /etc/nginx/sites-enabled/default"
+sed -i '14a \\tadd_header X-Served-By '"${HOSTNAME}"';' /etc/nginx/nginx.conf
 
-# Restart Nginx
+#restart after updating settings
 service nginx restart
