@@ -47,5 +47,5 @@ frontend broline-frontend-https
 
 backend broline-backend
         balance roundrobin
-        server 151666-web-01 100.25.190.21:80 check
-        server 151666-web-02 54.160.77.90:80 check
+        server 134453-web-01 52.87.154.63:80 check
+        server 134453-web-02 54.90.14.0:80 check
