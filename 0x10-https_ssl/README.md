@@ -6,7 +6,7 @@ For this project, we expect you to look at these concepts:
 ##  DNS
 DNS is, in simple words, the technology that translates human-adapted, text-based domain names to machine-adapted, numerical-based IP:
 
-- [Learn everything about DNS in cartoo]n(https://howdns.works/)
+- [Learn everything about DNS in cartoon](https://howdns.works/)
 - Be sure to know the main DNS record types:
 	- A
 	- CNAME
