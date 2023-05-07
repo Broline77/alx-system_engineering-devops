@@ -28,7 +28,7 @@ echo "Ceci n'est pas une page" > /var/www/html/404.html
 			try_files \$uri \$uri/ =404;
 		}
 		if (\$request_filename ~ redirect_me){
-			rewrite ^ https://alphaziro.tech/ permanent;
+			rewrite ^ https://broline.tech/ permanent;
 		}
 		error_page 404 /error_404.html;
 		location = /error_404.html {
